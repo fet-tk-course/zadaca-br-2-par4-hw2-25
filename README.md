@@ -3,7 +3,53 @@
 
 ## O projektu
 
-[Ovdje ukratko opišite domenu vaše aplikacije i njenu svrhu]
+# Cirkus API
+
+## Opis domene
+
+Domena: Informacioni sistem za upravljanje Zoo vrtom sa fokusom na životinje i njihove zabavne nastupe.
+
+Svrha aplikacije: Ova REST API aplikacija služi kao centralizovani sistem za evidenciju dresiranih životinja i organizaciju njihovih javnih nastupa. Sistem je dizajniran da olakša rad dreserima i upravi Zoo vrta kroz digitalno praćenje ključnih podataka:
+
+Evidencija životinja: Praćenje osnovnih informacija o životinjama (vrsta, starost, težina), njihovog zdravstvenog stanja i statusa dresure.
+
+Upravljanje nastupima: Planiranje i organizacija nastupa, praćenje termina, opremljenosti i popularnosti (ocjena) svake izvedbe.
+
+Cilj projekta: Primarni cilj je omogućiti potpunu CRUD funkcionalnost (kreiranje, čitanje, ažuriranje i brisanje) nad resursima životinja i nastupa, uz napredno filtriranje podataka radi bržeg pristupa informacijama (npr. pretraga po broju kaveza ili ocjeni publike).
+
+---
+
+## Entiteti
+
+### Životinja 
+
+| Naziv polja        | Tip podatka  | Napomena                    |
+|--------------------|--------------|-----------------------------|
+| id_zivotinje       | int          | Primary Key, auto-increment |
+| ime_zivotinje      | str          | Obavezno polje              |
+| vrsta_zivotinje    | str          | Obavezno polje              |
+| starost            | int          | Obavezno polje              |
+| tezina             | float        | Obavezno polje              |
+| je_dresirana       | bool         | Obavezno polje              |
+| opis               | Optional[str]| Nije obavezno               |
+| broj_kaveza        | int          | Obavezno polje              |
+| zdravstveni_karton | Optional[str]| Nije obavezno               |
+
+---
+
+### Dreserski nastup 
+
+| Naziv polja        | Tip podatka  | Napomena                       |
+|--------------------|--------------|--------------------------------|
+| id_nastupa         | int          | Primary Key, auto-increment    |
+| naziv              | str          | Obavezno polje                 |
+| tezina_izvedbe     | int          | Skala od 1 do 5                |
+| opis               | Optional[str]| Nije obavezno                  |
+| potrebna_oprema    | bool         | Obavezno polje                 |
+| vrijeme_pocetka    | Optional[str]| Format: "HH:MM", nije obavezno |
+| ocjena_publike     | float        | Obavezno polje                 |
+| max_broj_gledalaca | int          | Obavezno polje                 |
+| id_zivotinje       | int          | Foreign Key → Zivotinja        |
 
 ## Tim
 
