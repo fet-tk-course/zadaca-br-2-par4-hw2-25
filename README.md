@@ -1,9 +1,6 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/wxDq4rbD)
 # Zadaća 2 - REST API aplikacija
 
-## O projektu
-
-# Cirkus API
 
 ## Opis domene
 
@@ -17,7 +14,7 @@ Upravljanje nastupima: Planiranje i organizacija nastupa, praćenje termina, opr
 
 Cilj projekta: Primarni cilj je omogućiti potpunu CRUD funkcionalnost (kreiranje, čitanje, ažuriranje i brisanje) nad resursima životinja i nastupa, uz napredno filtriranje podataka radi bržeg pristupa informacijama (npr. pretraga po broju kaveza ili ocjeni publike).
 
----
+
 
 ## Entiteti
 
@@ -35,7 +32,7 @@ Cilj projekta: Primarni cilj je omogućiti potpunu CRUD funkcionalnost (kreiranj
 | broj_kaveza        | int          | Obavezno polje              |
 | zdravstveni_karton | Optional[str]| Nije obavezno               |
 
----
+
 
 ### Dreserski nastup 
 
@@ -53,8 +50,8 @@ Cilj projekta: Primarni cilj je omogućiti potpunu CRUD funkcionalnost (kreiranj
 
 ## Tim
 
-- **Student A**: [Ime Prezime] - resurs: `/resursi_a`
-- **Student B**: [Ime Prezime] - resurs: `/resursi_b`
+- **Student A**: Amel Tokić - resurs: `/resursi_a`
+- **Student B**: Lejla Kadušić - resurs: `/resursi_b`
 
 ## Instalacija i pokretanje
 
