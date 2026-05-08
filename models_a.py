@@ -16,12 +16,26 @@ class Zivotinja (SQLModel, table=True):
 # Shema za kreiranje nove zivotinje bez ID-a
 
 class ZivotinjaCreate(SQLModel):
-    ime_zivotinje :str 
-    vrsta_zivotinje: str
-    starost: int
-    tezina: float
-    je_dresirana: bool
-    broj_kaveza: int
-    opis: Optional[str] = None
-    zdravstveni_karton: Optional[str] = None
+    ime_zivotinje : str 
+    vrsta_zivotinje : str
+    starost : int
+    tezina : float
+    je_dresirana : bool
+    broj_kaveza : int
+    opis : Optional[str] = None
+    zdravstveni_karton : Optional[str] = None
+
+
+# Shema za djelimicno azuriranje
+
+
+class ZivotinjaUpdate(SQLModel):
+    ime_zivotinje : Optional[str] = None
+    vrsta_zivotinje : Optional[str] = None
+    starost : Optional[int] = None
+    tezina : Optional[float] = None
+    je_dresirana : Optional[bool] = None
+    broj_kaveza : Optional[int] = None
+    opis : Optional[str] = None
+    zdravstveni_karton : Optional[str] = None
 
