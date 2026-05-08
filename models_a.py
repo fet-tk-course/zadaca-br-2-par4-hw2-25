@@ -5,6 +5,7 @@ class Zivotinja (SQLModel, table=True):
     ID_zivotinje: Optional[int] = Field(default=None, primary_key=True)
 
     ime_zivotinje : str = Field (min_length=1, description="Ime zivotinje.")
+    vrsta_zivotinje : str = Field (min_length=1, description="Vrsta zivotinje.")
     starost: int = Field(ge=0, description="Starost životinje u godinama")
     tezina: float = Field(gt=0.0, description="Težina životinje u kilogramima")
     je_dresirana: bool = Field(description="Da li je životinja dresirana")
