@@ -12,3 +12,16 @@ class Zivotinja (SQLModel, table=True):
     opis: Optional[str] = Field(default=None, description="Dodatni opis životinje")
     zdravstveni_karton: Optional[str] = Field(default=None, description="Bilješke iz zdravstvenog kartona")
 
+
+# Shema za kreiranje nove zivotinje bez ID-a
+
+class ZivotinjaCreate(SQLModel):
+    ime_zivotinje :str 
+    vrsta_zivotinje: str
+    starost: int
+    tezina: float
+    je_dresirana: bool
+    broj_kaveza: int
+    opis: Optional[str] = None
+    zdravstveni_karton: Optional[str] = None
+
