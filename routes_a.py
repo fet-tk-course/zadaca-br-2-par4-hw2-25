@@ -82,3 +82,29 @@ def update_zivotinja(
     session.commit()
     session.refresh(zivotinja)
     return zivotinja
+
+
+# Djelimicno azuriranje zivotinje
+
+@router.patch("/{id_zivotinje}", response_model=Zivotinja)
+def partial_update_zivotinja(
+    id_zivotinje: int,
+    zivotinja_data: ZivotinjaUpdate,
+    session: Session = Depends(get_session)
+):
+    zivotinja = session.get(Zivotinja, id_zivotinje)
+ 
+    if not zivotinja:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Životinja sa ID-em {id_zivotinje} nije pronađena."
+        )
+ 
+    azurirana_polja = zivotinja_data.model_dump(exclude_unset=True)
+    for key, value in azurirana_polja.items():
+        setattr(zivotinja, key, value)
+ 
+    session.add(zivotinja)
+    session.commit()
+    session.refresh(zivotinja)
+    return zivotinja
