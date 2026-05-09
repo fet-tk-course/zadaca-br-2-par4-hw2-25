@@ -17,3 +17,12 @@ def create_performance(performance_data: PerformanceCreate, session: Session = D
     session.refresh(new_performance)
     return new_performance
 
+
+@router.get("/{id}", response_model=Performance)
+def get_performance(id: int, session: Session = Depends(get_session)):
+    performance = session.get(Performance, id)
+    
+    if not performance:
+        raise HTTPException(status_code=404, detail="Performance not found")
+    
+    return performance
