@@ -8,6 +8,9 @@ from models_b import Performance, PerformanceCreate, PerformanceUpdate
 router = APIRouter(prefix="/performances", tags=["Performances"])
 
 
+
+
+
 @router.get("/", response_model=List[Performance])
 def get_all_performances(min_rating: Optional[float] = None, session: Session = Depends(get_session)):
     query = select(Performance)
