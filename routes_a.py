@@ -56,3 +56,29 @@ def create_zivotinja(zivotinja_data: ZivotinjaCreate, session: Session = Depends
     session.commit()
     session.refresh(nova_zivotinja)
     return nova_zivotinja
+
+
+# Potpuna zamjena zivotinje
+
+@router.put("/{id_zivotinje}", response_model=Zivotinja)
+def update_zivotinja(
+    id_zivotinje: int,
+    zivotinja_data: ZivotinjaCreate,
+    session: Session = Depends(get_session)
+):
+    zivotinja = session.get(Zivotinja, id_zivotinje)
+ 
+    if not zivotinja:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Životinja sa ID-em {id_zivotinje} nije pronađena."
+        )
+ 
+    nova_data = zivotinja_data.model_dump()
+    for key, value in nova_data.items():
+        setattr(zivotinja, key, value)
+ 
+    session.add(zivotinja)
+    session.commit()
+    session.refresh(zivotinja)
+    return zivotinja
