@@ -3,6 +3,9 @@ from contextlib import asynccontextmanager
 
 from database import create_db_and_tables
 
+import models_a
+import models_b
+
 
 from routes_a import router as router_a
 
