@@ -25,3 +25,21 @@ def get_all_zivotinje(
  
     zivotinje = session.exec(query).all()
     return zivotinje
+
+
+# Dohvatanje jedne zivotinje po ID-u
+
+@router.get("/{id_zivotinje}", response_model=Zivotinja)
+def get_zivotinja(id_zivotinje: int, session: Session = Depends(get_session)):
+    """
+    Dohvata jednu životinju na osnovu njenog ID-a.
+    Vraća HTTP 404 ukoliko životinja nije pronađena.
+    """
+    zivotinja = session.get(Zivotinja, id_zivotinje)
+ 
+    if not zivotinja:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Životinja sa ID-em {id_zivotinje} nije pronađena."
+        )
+    return zivotinja
