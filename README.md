@@ -104,16 +104,6 @@ uvicorn main:app --reload
 
 
 
-### Resurs B: `/performances` 
-
-| Metoda | Ruta | Opis |
-| :--- | :--- | :--- |
-| **GET** | `/performances` | Lista svih nastupa (opcionalni query filter: `min_rating`) |
-| **GET** | `/performances/{id}` | Dohvatanje detalja jednog nastupa po ID-u |
-| **POST** | `/performances` | Kreiranje novog nastupa (Status: **201 Created**) |
-| **PUT** | `/performances/{id}` | Potpuna zamjena podataka postojećeg nastupa |
-| **PATCH** | `/performances/{id}` | Djelimično ažuriranje podataka (koristi `exclude_unset=True`) |
-| **DELETE** | `/performances/{id}` | Brisanje nastupa iz baze (Status: **204 No Content**) |
 
 **Primjer zahtjeva:**
 ```bash
@@ -132,9 +122,33 @@ curl -X PATCH "http://localhost:8000/zivotinja/1" \
 
 ```
 
-### Resurs B: `/resursi_b`
 
-[Analogno kao za Resurs A]
+### Resurs B: `/performances` 
+
+| Metoda | Ruta | Opis |
+| :--- | :--- | :--- |
+| **GET** | `/performances` | Lista svih nastupa (opcionalni query filter: `min_rating`) |
+| **GET** | `/performances/{id}` | Dohvatanje detalja jednog nastupa po ID-u |
+| **POST** | `/performances` | Kreiranje novog nastupa (Status: **201 Created**) |
+| **PUT** | `/performances/{id}` | Potpuna zamjena podataka postojećeg nastupa |
+| **PATCH** | `/performances/{id}` | Djelimično ažuriranje podataka (koristi `exclude_unset=True`) |
+| **DELETE** | `/performances/{id}` | Brisanje nastupa iz baze (Status: **204 No Content**) |
+
+**Primjer zahtjeva:**
+```bash
+# Kreiranje novog nastupa
+curl -X POST "http://localhost:8000/performances" \
+  -H "Content-Type: application/json" \
+  -d '{"title": "Nebeski letaci", "difficulty": 5, "description": "Akrobacije na visini", "required_equipment": true, "start_time": "20:30", "audience_rating": 4.9, "max_viewers": 300, "animal_id": 1}'
+
+# Dohvatanje nastupa sa ocjenom vecom ili jednakom 4.0
+curl "http://localhost:8000/performances?min_rating=4.0"
+
+# Djelimično ažuriranje (samo broj gledalaca)
+curl -X PATCH "http://localhost:8000/performances/1" \
+  -H "Content-Type: application/json" \
+  -d '{"max_viewers": 350}'
+```
 
 ## Korištenje AI alata
 
