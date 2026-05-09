@@ -108,3 +108,19 @@ def partial_update_zivotinja(
     session.commit()
     session.refresh(zivotinja)
     return zivotinja
+
+
+# Brisanje životinje
+
+@router.delete("/{id_zivotinje}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_zivotinja(id_zivotinje: int, session: Session = Depends(get_session)):
+    zivotinja = session.get(Zivotinja, id_zivotinje)
+ 
+    if not zivotinja:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Životinja sa ID-em {id_zivotinje} nije pronađena."
+        )
+ 
+    session.delete(zivotinja)
+    session.commit()
