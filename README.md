@@ -125,18 +125,21 @@ curl -X PATCH "http://localhost:8000/zivotinja/1" \
 
 ## Korištenje AI alata
 
-### Alat: [GitHub Copilot / ChatGPT / ...]
-**Model:** [GPT-4, Copilot model, ...]
+### Student A - Amel Tokić
+
+### Alat: Claude (Anthropic)
+**Model:** Claude Sonnet
 
 **Primjer 1:**
-- **Prompt:** [Npr. "Kreiraj SQLModel klasu za entitet Knjiga sa poljima naslov, autor, godina, isbn"]
-- **Kako je pomoglo:** [Opis]
-- **Prilagodbe:** [Da li ste morali prilagoditi generisani kod]
+- **Prompt:** "Kreiraj SQLModel klase za entitet Zivotinja sa poljima ime, vrsta, starost, tezina, je_dresirana, broj_kaveza, opis i zdravstveni_karton."
+- **Kako je pomoglo:** Generisao je osnovnu strukturu klase 'Zivotinja' sa ispravnim tipovima i Optional poljima.
+- **Prilagodbe:** Dodane su validacije polja u glavnoj tabeli (npr. `ge=0` za starost, `gt=0.0` za težinu, `ge=1` za broj_kaveza) i opisi polja putem `description` parametra.
 
 **Primjer 2:**
-- **Prompt:** [Npr. "Implementiraj PATCH endpoint sa exclude_unset=True"]
-- **Kako je pomoglo:** [Opis]
-- **Prilagodbe:** [Opis]
+- **Prompt:** "Implementiraj FastAPI PATCH endpoint koji koristi exclude_unset=True za djelimično ažuriranje SQLModel entiteta"
+- **Kako je pomoglo:** Generisao je ispravan PATCH endpoint i petljom koja postavlja samo proslijeđena polja.
+- **Prilagodbe:** Prilagođeno imenovanje varijabli prema domeni (zivotinja, id_zivotinje). Također, dodan HTTP 404 odgovor ukoliko entitet nije pronađen.
+
 
 ## Napomene
 
