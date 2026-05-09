@@ -91,16 +91,16 @@ uvicorn main:app --reload
 
 ## API Endpointi
 
-### Resurs A: `/resursi_a`
+### Resurs A: `/zivotinja`
 
 | Metoda | Ruta | Opis |
 |--------|------|------|
-| GET | `/resursi_a` | Lista svih resursa (sa query filterom) |
-| GET | `/resursi_a/{id}` | Dohvatanje resursa po ID-u |
-| POST | `/resursi_a` | Kreiranje novog resursa |
-| PUT | `/resursi_a/{id}` | Potpuna zamjena resursa |
-| PATCH | `/resursi_a/{id}` | Djelimično ažuriranje resursa |
-| DELETE | `/resursi_a/{id}` | Brisanje resursa |
+| GET | `/zivotinja` | Lista svih životinja (query filteri: `vrsta_zivotinje`, `je_dresirana`) |
+| GET | `/zivotinja/{id}` | Dohvatanje životinje po ID-u |
+| POST | `/zivotinja` | Kreiranje nove životinje |
+| PUT | `/zivotinja/{id}` | Potpuna zamjena životinje |
+| PATCH | `/zivotinja/{id}` | Djelimično ažuriranje životinje |
+| DELETE | `/zivotinja/{id}` | Brisanje životinje |
 
 **Primjer zahtjeva:**
 ```bash
