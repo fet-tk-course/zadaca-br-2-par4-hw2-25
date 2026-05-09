@@ -40,18 +40,18 @@ Cilj projekta: Primarni cilj je omogućiti potpunu CRUD funkcionalnost (kreiranj
 |--------------------|--------------|--------------------------------|
 | id_nastupa         | int          | Primary Key, auto-increment    |
 | naziv              | str          | Obavezno polje                 |
-| tezina_izvedbe     | int          | Skala od 1 do 5                |
+| tezina_izvedbe     | int          | Skala od 1 do 5,obavezno polje |
 | opis               | Optional[str]| Nije obavezno                  |
 | potrebna_oprema    | bool         | Obavezno polje                 |
 | vrijeme_pocetka    | Optional[str]| Format: "HH:MM", nije obavezno |
 | ocjena_publike     | float        | Obavezno polje                 |
 | max_broj_gledalaca | int          | Obavezno polje                 |
-| id_zivotinje       | int          | Foreign Key → Zivotinja        |
+| id_zivotinje       | int          | Foreign Key, obavezno polje    |
 
 ## Tim
 
 - **Student A**: Amel Tokić - resurs: `/zivotinja`
-- **Student B**: Lejla Kadušić - resurs: `/resursi_b`
+- **Student B**: Lejla Kadušić - resurs: `/performances` 
 
 ## Instalacija i pokretanje
 
