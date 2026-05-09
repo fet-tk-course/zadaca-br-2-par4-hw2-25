@@ -104,10 +104,19 @@ uvicorn main:app --reload
 
 **Primjer zahtjeva:**
 ```bash
-# Kreiranje novog resursa
-curl -X POST "http://localhost:8000/resursi_a" \
+# Kreiranje nove zivotinje
+curl -X POST "http://localhost:8000/zivotinja" \
   -H "Content-Type: application/json" \
-  -d '{"polje1": "vrijednost", "polje2": 123}'
+  -d '{"ime_zivotinje": "Leo", "vrsta_zivotinje": "lav", "starost": 5, "tezina": 190.5, "je_dresirana": true, "broj_kaveza": 3}'
+
+# Dohvatanje svih dresiranih lavova
+curl "http://localhost:8000/zivotinja?vrsta_zivotinje=lav&je_dresirana=true"
+
+# Djelimično azuriranje (samo starost)
+curl -X PATCH "http://localhost:8000/zivotinja/1" \
+  -H "Content-Type: application/json" \
+  -d '{"starost": 6}'
+
 ```
 
 ### Resurs B: `/resursi_b`
