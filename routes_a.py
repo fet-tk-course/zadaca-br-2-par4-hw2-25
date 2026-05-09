@@ -5,7 +5,7 @@ from typing import Optional
 from database import get_session
 from models_a import Zivotinja, ZivotinjaCreate, ZivotinjaUpdate 
 
-router = APIRouter(prefix="/resursi_a", tags=["Resurs A"])
+router = APIRouter(prefix="/zivotinja", tags=["Zivotinja"])
 
 
 # Dohvatanje liste svih životinja s opcionalnim filterima po vrsti i dresiranosti
