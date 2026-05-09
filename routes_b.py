@@ -26,3 +26,18 @@ def get_performance(id: int, session: Session = Depends(get_session)):
         raise HTTPException(status_code=404, detail="Performance not found")
     
     return performance
+
+
+@router.delete("/{id}", status_code=204)
+def delete_performance(id: int, session: Session = Depends(get_session)):
+
+    performance = session.get(Performance, id)
+    
+    if not performance:
+        raise HTTPException(status_code=404, detail="Performance not found")
+    
+
+    session.delete(performance)
+    session.commit()
+    
+    return None
