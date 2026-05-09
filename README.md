@@ -102,6 +102,19 @@ uvicorn main:app --reload
 | PATCH | `/zivotinja/{id}` | Djelimično ažuriranje životinje |
 | DELETE | `/zivotinja/{id}` | Brisanje životinje |
 
+
+
+### Resurs B: `/performances` 
+
+| Metoda | Ruta | Opis |
+| :--- | :--- | :--- |
+| **GET** | `/performances` | Lista svih nastupa (opcionalni query filter: `min_rating`) |
+| **GET** | `/performances/{id}` | Dohvatanje detalja jednog nastupa po ID-u |
+| **POST** | `/performances` | Kreiranje novog nastupa (Status: **201 Created**) |
+| **PUT** | `/performances/{id}` | Potpuna zamjena podataka postojećeg nastupa |
+| **PATCH** | `/performances/{id}` | Djelimično ažuriranje podataka (koristi `exclude_unset=True`) |
+| **DELETE** | `/performances/{id}` | Brisanje nastupa iz baze (Status: **204 No Content**) |
+
 **Primjer zahtjeva:**
 ```bash
 # Kreiranje nove zivotinje
