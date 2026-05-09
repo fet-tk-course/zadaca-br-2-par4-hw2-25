@@ -41,3 +41,17 @@ def delete_performance(id: int, session: Session = Depends(get_session)):
     session.commit()
     
     return None
+
+@router.put("/{id}", response_model=Performance)
+def update_performance(id: int, performance_data: PerformanceCreate, session: Session = Depends(get_session)):
+    performance = session.get(Performance, id)
+    
+    if not performance:
+        raise HTTPException(status_code=404, detail="Performance not found")
+    
+    for key, value in performance_data.dict().items():
+        setattr(performance, key, value)
+        
+    session.commit()
+    session.refresh(performance)
+    return performance
