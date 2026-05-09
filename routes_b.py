@@ -55,3 +55,20 @@ def update_performance(id: int, performance_data: PerformanceCreate, session: Se
     session.commit()
     session.refresh(performance)
     return performance
+
+
+@router.patch("/{id}", response_model=Performance)
+def partial_update_performance(id: int, performance_data: PerformanceUpdate, session: Session = Depends(get_session)):
+    performance = session.get(Performance, id)
+    if not performance:
+        raise HTTPException(status_code=404, detail="Performance not found")
+    
+
+    update_data = performance_data.dict(exclude_unset=True)
+    
+    for key, value in update_data.items():
+        setattr(performance, key, value)
+        
+    session.commit()
+    session.refresh(performance)
+    return performance
