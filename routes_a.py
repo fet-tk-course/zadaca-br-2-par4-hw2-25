@@ -43,3 +43,16 @@ def get_zivotinja(id_zivotinje: int, session: Session = Depends(get_session)):
             detail=f"Životinja sa ID-em {id_zivotinje} nije pronađena."
         )
     return zivotinja
+
+
+# Kreiranje nove zivotinje
+
+@router.post("/", response_model=Zivotinja, status_code=status.HTTP_201_CREATED)
+def create_zivotinja(zivotinja_data: ZivotinjaCreate, session: Session = Depends(get_session)):
+   
+    nova_zivotinja = Zivotinja.model_validate(zivotinja_data)
+ 
+    session.add(nova_zivotinja)
+    session.commit()
+    session.refresh(nova_zivotinja)
+    return nova_zivotinja
