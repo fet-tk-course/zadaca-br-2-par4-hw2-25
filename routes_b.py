@@ -8,6 +8,16 @@ from models_b import Performance, PerformanceCreate, PerformanceUpdate
 router = APIRouter(prefix="/performances", tags=["Performances"])
 
 
+@router.get("/", response_model=List[Performance])
+def get_all_performances(min_rating: Optional[float] = None, session: Session = Depends(get_session)):
+    query = select(Performance)
+    
+    if min_rating is not None:
+        query = query.where(Performance.audience_rating >= min_rating)
+        
+    return session.exec(query).all()
+
+
 @router.post("/", status_code=201)
 def create_performance(performance_data: PerformanceCreate, session: Session = Depends(get_session)):
 
