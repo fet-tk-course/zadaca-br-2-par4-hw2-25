@@ -167,6 +167,21 @@ curl -X PATCH "http://localhost:8000/performances/1" \
 >- **Kako je pomoglo:** Generisao je ispravan PATCH endpoint i petljom koja postavlja samo proslijeđena polja.
 >- **Prilagodbe:** Prilagođeno imenovanje varijabli prema domeni (zivotinja, id_zivotinje). Također, dodan HTTP 404 odgovor ukoliko entitet nije pronađen.
 
+>### Student B - Lejla Kadušić
+>
+>### Alat: Gemini (Google)
+>**Model:** Gemini 1.5 Flash
+>
+>**Primjer 1:**
+>- **Prompt:** "Kreiraj SQLModel modele za entitet Performance koji uključuje naslov, težinu, opis, potrebnu opremu, vrijeme početka, ocjenu publike i maksimalan broj gledalaca. Poveži ga sa tabelom životinja preko animal_id."
+>- **Kako je pomoglo:** Generisao je tri odvojena modela (Performance, PerformanceCreate, PerformanceUpdate) što je omogućilo čistu validaciju podataka i ispravno definisanje stranog ključa.
+>- **Prilagodbe:** Promijenjeni su tipovi podataka (npr. audience_rating u float) i dodane su Optional oznake za PATCH model kako bi se omogućilo djelimično ažuriranje.
+>
+>**Primjer 2:**
+>- **Prompt:** "Kako implementirati GET listu sa query parametrom za filtriranje po ocjeni u FastAPI koristeći SQLModel?"
+>- **Kako je pomoglo:** Pružio je ispravnu sintaksu za select upite sa .where() klauzulom i pokazao kako se koristi Optional query parametar u funkciji.
+>- **Prilagodbe:** Filter je postavljen na min_rating (veće ili jednako), čime je ispunjen uslov zadatka za postojanje najmanje jednog query parametra za filtriranje.
+
 
 ## Napomene
 
