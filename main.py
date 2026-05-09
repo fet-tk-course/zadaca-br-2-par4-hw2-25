@@ -8,6 +8,7 @@ import models_b
 
 
 from routes_a import router as router_a
+from routes_b import router as router_b
 
 
 @asynccontextmanager
@@ -23,7 +24,7 @@ app = FastAPI(
 )
 
 app.include_router(router_a)    # Ukljucivanje ruta za resurs A
-
+app.include_router(router_b)
 
 @app.get("/")
 def read_root():
