@@ -49,6 +49,23 @@ def get_zivotinja(id_zivotinje: int, session: Session = Depends(get_session)):
 
 @router.post("/", response_model=Zivotinja, status_code=status.HTTP_201_CREATED)
 def create_zivotinja(zivotinja_data: ZivotinjaCreate, session: Session = Depends(get_session)):
+
+     ### HTTP 409 konflikt                -> ZADATAK 1
+    postojeca = session.exec(
+        select(Zivotinja).where(
+            Zivotinja.ime_zivotinje == zivotinja_data.ime_zivotinje,
+            Zivotinja.broj_kaveza == zivotinja_data.broj_kaveza
+        )
+    ).first()
+ 
+    if postojeca:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail=(
+                f"Životinja s imenom '{zivotinja_data.ime_zivotinje}' "
+                f"već postoji u kavezu broj {zivotinja_data.broj_kaveza}."
+            )
+        )
    
     nova_zivotinja = Zivotinja.model_validate(zivotinja_data)
  
