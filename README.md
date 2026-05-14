@@ -190,3 +190,35 @@ Integritet baze podataka:
 Aplikacija koristi relacioni model gdje su resursi Životinja i Nastup povezani putem stranog ključa (id_zivotinje). 
 Ovo osigurava da svaki nastup mora biti dodijeljen postojećoj životinji, čime se sprječava unos nevažećih podataka.
 
+## Provjera zadaće  2
+
+### 1. Opis dodanog u Z1 i Z2
+
+U `PerformanceCreate` model dodani Pydantic validatori. Blokiraju prazan string za `title`  i ograničavaju `difficulty` na opseg od 1 do 5. Ako podaci ne valjaju, baca se HTTP 422.
+U `POST /performances/` endpoint dodan upit koji provjerava da li u bazi već postoji predstava sa istim `title`. Ako postoji, ruter baca HTTP 409 Conflict.
+Napravljen novi `GET /performances/count` endpoint. Koristi `func.count(Performance.id)` da direktno iz baze izvuče ukupan broj redova i vrati ga kao JSON. Ruta je stavljena iznad `/{id` rute da je FastAPI ne bi pobrkao sa ID-jem.
+
+
+### 2. Primjer zahtjeva i očekivanog odgovora za nove endpointe
+
+POST /performances/
+```json
+{
+  "title": "Lavlji šou",
+  "difficulty": 3,
+  "description": "Predstava sa lavovima",
+  "required_equipment": true,
+  "start_time": "18:00",
+  "audience_rating": 4.7,
+  "max_viewers": 200,
+  "animal_id": 1
+}
+
+### Validatori i namjena
+`title_ne_smije_biti_prazan`**: Određen za polje `title`. Provjerava da naziv predstave nije prazan string ili ispunjen samo razmacima.
+`difficulty_mora_biti_u_opsegu`**: Određen za polje `difficulty`. Ograničava unos težine predstave isključivo na raspon od 1 do 5.
+
+### 4. Greške i HTTP statusi
+Prazan naslov / pogrešan broj (1-5): Vraća **HTTP 422** (Greška validacije).
+Isti naslov na POST ruti: Vraća **HTTP 409** (Duplikat).
+Nepostojeći ID u bazi: Vraća **HTTP 404** (Nije pronađeno).
