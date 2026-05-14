@@ -189,3 +189,34 @@ Integritet baze podataka:
 
 Aplikacija koristi relacioni model gdje su resursi Životinja i Nastup povezani putem stranog ključa (id_zivotinje). 
 Ovo osigurava da svaki nastup mora biti dodijeljen postojećoj životinji, čime se sprječava unos nevažećih podataka.
+
+
+### STUDENT A - AMEL TOKIC -PROVJERA ZADACE
+
+Validatori su implementirani u ZivotinjaCreate shemi putem Pydantic @field_validator dekoratora. 
+Svaka greška validacije vraća HTTP 422 Unprocessable Entity s opisom pogreške.
+
+## ZADATAK 1
+
+Iza strelice se nalazi greska koja se vraca.
+Izmjene su u models_a.py
+
+ime_zivotinje -> Ime životinje mora imati najmanje 2 karaktera.
+vrsta_zivotinje -> Vrsta životinje mora imati najmanje 3 karaktera.
+starost -> Starost životinje ne može biti negativna, veća od 150.
+tezina -> Težina životinje mora biti veća od 0 kg, veća od 200 000 kg.
+broj_kaveza -> Broj kaveza mora biti pozitivan cijeli broj.
+
+# HTTP 409
+
+Prije kreiranja nove zivotinje, sistem provjerava da li zivotinja s istim imenom vec postoji u istom kavezu.
+ Kombinacija ime_zivotinje + broj_kaveza tretira se kao jedinstvena u domeni zooloskog vrta.
+
+ ### ZADATAK 2
+
+Zadatak se nalazi u routes_a.py
+
+ GET /zivotinja/statistika — custom endpoint
+Vraća agregirane podatke o zivotinjama grupisane po vrsti. Vraca izracunate statistike iz baze.
+Ruta /statistika je registrovana prije /{id} u kodu.
+ Da je obrnuto, FastAPI bi string "statistika" pokusao parsirati kao int.
