@@ -189,3 +189,4 @@ Integritet baze podataka:
 
 Aplikacija koristi relacioni model gdje su resursi Životinja i Nastup povezani putem stranog ključa (id_zivotinje). 
 Ovo osigurava da svaki nastup mora biti dodijeljen postojećoj životinji, čime se sprječava unos nevažećih podataka.
+

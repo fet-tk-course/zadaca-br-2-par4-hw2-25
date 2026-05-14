@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlmodel import Session, select
 from typing import List, Optional
-
+from sqlalchemy import func 
 from database import get_session
 from models_b import Performance, PerformanceCreate, PerformanceUpdate 
 
@@ -23,13 +23,28 @@ def get_all_performances(min_rating: Optional[float] = None, session: Session = 
 
 @router.post("/", status_code=201)
 def create_performance(performance_data: PerformanceCreate, session: Session = Depends(get_session)):
+    
+    query= select(Performance).where(Performance.title == performance_data.title)
 
+    existing_performance = session.exec(query).first()
+    
+    if existing_performance:
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=f"Predstava sa nazivom  već postoji." )
+    
     new_performance = Performance.from_orm(performance_data)
     session.add(new_performance)
     session.commit()
     session.refresh(new_performance)
     return new_performance
 
+ 
+@router.get("/count")
+def get_total_performances_count(session: Session = Depends(get_session)):
+    
+    
+    query = select(func.count(Performance.id))
+    result = session.exec(query).scalar()
+    return {"ukupno": result}
 
 @router.get("/{id}", response_model=Performance)
 def get_performance(id: int, session: Session = Depends(get_session)):
@@ -85,3 +100,9 @@ def partial_update_performance(id: int, performance_data: PerformanceUpdate, ses
     session.commit()
     session.refresh(performance)
     return performance
+
+
+
+
+
+
