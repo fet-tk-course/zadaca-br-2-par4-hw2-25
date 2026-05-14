@@ -214,7 +214,7 @@ POST /performances/
   "animal_id": 1
 }
 ```
-
+Očekivani rezultat:Predstava sa nazivom već postoji.
 ### Validatori i namjena
 `title_ne_smije_biti_prazan`**: Određen za polje `title`. Provjerava da naziv predstave nije prazan string ili ispunjen samo razmacima.
 `difficulty_mora_biti_u_opsegu`**: Određen za polje `difficulty`. Ograničava unos težine predstave isključivo na raspon od 1 do 5.
