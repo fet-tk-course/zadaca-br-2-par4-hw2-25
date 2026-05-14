@@ -213,6 +213,7 @@ POST /performances/
   "max_viewers": 200,
   "animal_id": 1
 }
+```
 
 ### Validatori i namjena
 `title_ne_smije_biti_prazan`**: Određen za polje `title`. Provjerava da naziv predstave nije prazan string ili ispunjen samo razmacima.
