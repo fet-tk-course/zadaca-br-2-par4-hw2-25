@@ -1,13 +1,57 @@
+[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/wxDq4rbD)
 # Zadaća 2 - REST API aplikacija
 
-## O projektu
 
-[Ovdje ukratko opišite domenu vaše aplikacije i njenu svrhu]
+## Opis domene
+
+Domena: Informacioni sistem za upravljanje Zoo vrtom sa fokusom na životinje i njihove zabavne nastupe.
+
+Svrha aplikacije: Ova REST API aplikacija služi kao centralizovani sistem za evidenciju dresiranih životinja i organizaciju njihovih javnih nastupa. Sistem je dizajniran da olakša rad dreserima i upravi Zoo vrta kroz digitalno praćenje ključnih podataka:
+
+Evidencija životinja: Praćenje osnovnih informacija o životinjama (vrsta, starost, težina), njihovog zdravstvenog stanja i statusa dresure.
+
+Upravljanje nastupima: Planiranje i organizacija nastupa, praćenje termina, opremljenosti i popularnosti (ocjena) svake izvedbe.
+
+Cilj projekta: Primarni cilj je omogućiti potpunu CRUD funkcionalnost (kreiranje, čitanje, ažuriranje i brisanje) nad resursima životinja i nastupa, uz napredno filtriranje podataka radi bržeg pristupa informacijama (npr. pretraga po broju kaveza ili ocjeni publike).
+
+
+
+## Entiteti
+
+### Životinja 
+
+| Naziv polja        | Tip podatka  | Napomena                    |
+|--------------------|--------------|-----------------------------|
+| id_zivotinje       | int          | Primary Key, auto-increment |
+| ime_zivotinje      | str          | Obavezno polje              |
+| vrsta_zivotinje    | str          | Obavezno polje              |
+| starost            | int          | Obavezno polje              |
+| tezina             | float        | Obavezno polje              |
+| je_dresirana       | bool         | Obavezno polje              |
+| opis               | Optional[str]| Nije obavezno               |
+| broj_kaveza        | int          | Obavezno polje              |
+| zdravstveni_karton | Optional[str]| Nije obavezno               |
+
+
+
+### Dreserski nastup 
+
+| Naziv polja        | Tip podatka  | Napomena                       |
+|--------------------|--------------|--------------------------------|
+| id_nastupa         | int          | Primary Key, auto-increment    |
+| naziv              | str          | Obavezno polje                 |
+| tezina_izvedbe     | int          | Skala od 1 do 5,obavezno polje |
+| opis               | Optional[str]| Nije obavezno                  |
+| potrebna_oprema    | bool         | Obavezno polje                 |
+| vrijeme_pocetka    | Optional[str]| Format: "HH:MM", nije obavezno |
+| ocjena_publike     | float        | Obavezno polje                 |
+| max_broj_gledalaca | int          | Obavezno polje                 |
+| id_zivotinje       | int          | Foreign Key, obavezno polje    |
 
 ## Tim
 
-- **Student A**: [Ime Prezime] - resurs: `/resursi_a`
-- **Student B**: [Ime Prezime] - resurs: `/resursi_b`
+- **Student A**: Amel Tokić - resurs: `/zivotinja`
+- **Student B**: Lejla Kadušić - resurs: `/performances` 
 
 ## Instalacija i pokretanje
 
@@ -47,44 +91,132 @@ uvicorn main:app --reload
 
 ## API Endpointi
 
-### Resurs A: `/resursi_a`
+### Resurs A: `/zivotinja`
 
 | Metoda | Ruta | Opis |
 |--------|------|------|
-| GET | `/resursi_a` | Lista svih resursa (sa query filterom) |
-| GET | `/resursi_a/{id}` | Dohvatanje resursa po ID-u |
-| POST | `/resursi_a` | Kreiranje novog resursa |
-| PUT | `/resursi_a/{id}` | Potpuna zamjena resursa |
-| PATCH | `/resursi_a/{id}` | Djelimično ažuriranje resursa |
-| DELETE | `/resursi_a/{id}` | Brisanje resursa |
+| GET | `/zivotinja` | Lista svih životinja (query filteri: `vrsta_zivotinje`, `je_dresirana`) |
+| GET | `/zivotinja/{id}` | Dohvatanje životinje po ID-u |
+| POST | `/zivotinja` | Kreiranje nove životinje |
+| PUT | `/zivotinja/{id}` | Potpuna zamjena životinje |
+| PATCH | `/zivotinja/{id}` | Djelimično ažuriranje životinje |
+| DELETE | `/zivotinja/{id}` | Brisanje životinje |
+
+
+
 
 **Primjer zahtjeva:**
 ```bash
-# Kreiranje novog resursa
-curl -X POST "http://localhost:8000/resursi_a" \
+# Kreiranje nove zivotinje
+curl -X POST "http://localhost:8000/zivotinja" \
   -H "Content-Type: application/json" \
-  -d '{"polje1": "vrijednost", "polje2": 123}'
+  -d '{"ime_zivotinje": "Leo", "vrsta_zivotinje": "lav", "starost": 5, "tezina": 190.5, "je_dresirana": true, "broj_kaveza": 3}'
+
+# Dohvatanje svih dresiranih lavova
+curl "http://localhost:8000/zivotinja?vrsta_zivotinje=lav&je_dresirana=true"
+
+# Djelimično azuriranje (samo starost)
+curl -X PATCH "http://localhost:8000/zivotinja/1" \
+  -H "Content-Type: application/json" \
+  -d '{"starost": 6}'
+
 ```
 
-### Resurs B: `/resursi_b`
 
-[Analogno kao za Resurs A]
+### Resurs B: `/performances` 
+
+| Metoda | Ruta | Opis |
+| :--- | :--- | :--- |
+| **GET** | `/performances` | Lista svih nastupa (opcionalni query filter: `min_rating`) |
+| **GET** | `/performances/{id}` | Dohvatanje detalja jednog nastupa po ID-u |
+| **POST** | `/performances` | Kreiranje novog nastupa (Status: **201 Created**) |
+| **PUT** | `/performances/{id}` | Potpuna zamjena podataka postojećeg nastupa |
+| **PATCH** | `/performances/{id}` | Djelimično ažuriranje podataka (koristi `exclude_unset=True`) |
+| **DELETE** | `/performances/{id}` | Brisanje nastupa iz baze (Status: **204 No Content**) |
+
+**Primjer zahtjeva:**
+```bash
+# Kreiranje novog nastupa
+curl -X POST "http://localhost:8000/performances" \
+  -H "Content-Type: application/json" \
+  -d '{"title": "Nebeski letaci", "difficulty": 5, "description": "Akrobacije na visini", "required_equipment": true, "start_time": "20:30", "audience_rating": 4.9, "max_viewers": 300, "animal_id": 1}'
+
+# Dohvatanje nastupa sa ocjenom vecom ili jednakom 4.0
+curl "http://localhost:8000/performances?min_rating=4.0"
+
+# Djelimično ažuriranje (samo broj gledalaca)
+curl -X PATCH "http://localhost:8000/performances/1" \
+  -H "Content-Type: application/json" \
+  -d '{"max_viewers": 350}'
+```
 
 ## Korištenje AI alata
 
-### Alat: [GitHub Copilot / ChatGPT / ...]
-**Model:** [GPT-4, Copilot model, ...]
+>### Student A - Amel Tokić
+>
+>### Alat: Claude (Anthropic)
+>**Model:** Claude Sonnet
+>
+>**Primjer 1:**
+>- **Prompt:** "Kreiraj SQLModel klase za entitet Zivotinja sa poljima ime, vrsta, starost, tezina, je_dresirana, broj_kaveza, opis i zdravstveni_karton."
+>- **Kako je pomoglo:** Generisao je osnovnu strukturu klase 'Zivotinja' sa ispravnim tipovima i Optional poljima.
+>- **Prilagodbe:** Dodane su validacije polja u glavnoj tabeli (npr. `ge=0` za starost, `gt=0.0` za težinu, `ge=1` za broj_kaveza) i opisi polja putem `description` parametra.
+>
+>**Primjer 2:**
+>- **Prompt:** "Implementiraj FastAPI PATCH endpoint koji koristi exclude_unset=True za djelimično ažuriranje SQLModel entiteta"
+>- **Kako je pomoglo:** Generisao je ispravan PATCH endpoint i petljom koja postavlja samo proslijeđena polja.
+>- **Prilagodbe:** Prilagođeno imenovanje varijabli prema domeni (zivotinja, id_zivotinje). Također, dodan HTTP 404 odgovor ukoliko entitet nije pronađen.
 
-**Primjer 1:**
-- **Prompt:** [Npr. "Kreiraj SQLModel klasu za entitet Knjiga sa poljima naslov, autor, godina, isbn"]
-- **Kako je pomoglo:** [Opis]
-- **Prilagodbe:** [Da li ste morali prilagoditi generisani kod]
+>### Student B - Lejla Kadušić
+>
+>### Alat: Gemini (Google)
+>**Model:** Gemini 1.5 Flash
+>
+>**Primjer 1:**
+>- **Prompt:** "Kreiraj SQLModel modele za entitet Performance koji uključuje naslov, težinu, opis, potrebnu opremu, vrijeme početka, ocjenu publike i maksimalan broj gledalaca. Poveži ga sa tabelom životinja preko animal_id."
+>- **Kako je pomoglo:** Generisao je tri odvojena modela (Performance, PerformanceCreate, PerformanceUpdate) što je omogućilo čistu validaciju podataka i ispravno definisanje stranog ključa.
+>- **Prilagodbe:** Promijenjeni su tipovi podataka (npr. audience_rating u float) i dodane su Optional oznake za PATCH model kako bi se omogućilo djelimično ažuriranje.
+>
+>**Primjer 2:**
+>- **Prompt:** "Kako implementirati GET listu sa query parametrom za filtriranje po ocjeni u FastAPI koristeći SQLModel?"
+>- **Kako je pomoglo:** Pružio je ispravnu sintaksu za select upite sa .where() klauzulom i pokazao kako se koristi Optional query parametar u funkciji.
+>- **Prilagodbe:** Filter je postavljen na min_rating (veće ili jednako), čime je ispunjen uslov zadatka za postojanje najmanje jednog query parametra za filtriranje.
 
-**Primjer 2:**
-- **Prompt:** [Npr. "Implementiraj PATCH endpoint sa exclude_unset=True"]
-- **Kako je pomoglo:** [Opis]
-- **Prilagodbe:** [Opis]
 
 ## Napomene
 
-[Dodatne napomene specifične za vašu implementaciju]
+Integritet baze podataka: 
+
+Aplikacija koristi relacioni model gdje su resursi Životinja i Nastup povezani putem stranog ključa (id_zivotinje). 
+Ovo osigurava da svaki nastup mora biti dodijeljen postojećoj životinji, čime se sprječava unos nevažećih podataka.
+
+
+### STUDENT A - AMEL TOKIC -PROVJERA ZADACE
+
+Validatori su implementirani u ZivotinjaCreate shemi putem Pydantic @field_validator dekoratora. 
+Svaka greška validacije vraća HTTP 422 Unprocessable Entity s opisom pogreške.
+
+## ZADATAK 1
+
+Iza strelice se nalazi greska koja se vraca.
+Izmjene su u models_a.py
+
+ime_zivotinje -> Ime životinje mora imati najmanje 2 karaktera.
+vrsta_zivotinje -> Vrsta životinje mora imati najmanje 3 karaktera.
+starost -> Starost životinje ne može biti negativna, veća od 150.
+tezina -> Težina životinje mora biti veća od 0 kg, veća od 200 000 kg.
+broj_kaveza -> Broj kaveza mora biti pozitivan cijeli broj.
+
+# HTTP 409
+
+Prije kreiranja nove zivotinje, sistem provjerava da li zivotinja s istim imenom vec postoji u istom kavezu.
+ Kombinacija ime_zivotinje + broj_kaveza tretira se kao jedinstvena u domeni zooloskog vrta.
+
+ ### ZADATAK 2
+
+Zadatak se nalazi u routes_a.py
+
+ GET /zivotinja/statistika — custom endpoint
+Vraća agregirane podatke o zivotinjama grupisane po vrsti. Vraca izracunate statistike iz baze.
+Ruta /statistika je registrovana prije /{id} u kodu.
+ Da je obrnuto, FastAPI bi string "statistika" pokusao parsirati kao int.
