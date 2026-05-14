@@ -27,6 +27,49 @@ def get_all_zivotinje(
     return zivotinje
 
 
+# Statistika životinja grupisana po vrsti
+# Ruta /statistika mora biti PRIJE /{id_zivotinje} kako FastAPI ne bi
+# pokušao interpretirati string "statistika" kao integer ID.
+ 
+@router.get("/statistika", response_model=list[dict])
+def get_statistika_po_vrsti(session: Session = Depends(get_session)):
+   
+    zivotinje = session.exec(select(Zivotinja)).all()
+ 
+    if not zivotinje:
+        return []
+ 
+    grupe: dict[str, dict] = {}
+    for z in zivotinje:
+        vrsta = z.vrsta_zivotinje
+        if vrsta not in grupe:
+            grupe[vrsta] = {
+                "vrsta_zivotinje": vrsta,
+                "ukupno": 0,
+                "ukupna_starost": 0,
+                "ukupna_tezina": 0.0,
+                "broj_dresiranih": 0,
+            }
+        grupe[vrsta]["ukupno"] += 1
+        grupe[vrsta]["ukupna_starost"] += z.starost
+        grupe[vrsta]["ukupna_tezina"] += z.tezina
+        if z.je_dresirana:
+            grupe[vrsta]["broj_dresiranih"] += 1
+ 
+    rezultat = []
+    for vrsta, podaci in grupe.items():
+        n = podaci["ukupno"]
+        rezultat.append({
+            "vrsta_zivotinje":   vrsta,
+            "ukupno":            n,
+            "prosjecna_starost": round(podaci["ukupna_starost"] / n, 2),
+            "prosjecna_tezina":  round(podaci["ukupna_tezina"]  / n, 2),
+            "broj_dresiranih":   podaci["broj_dresiranih"],
+        })
+ 
+    rezultat.sort(key=lambda x: x["ukupno"], reverse=True)
+    return rezultat
+
 # Dohvatanje jedne zivotinje po ID-u
 
 @router.get("/{id_zivotinje}", response_model=Zivotinja)
